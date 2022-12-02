@@ -10,5 +10,5 @@
 </ul>
 <p>В дальнейшем планируется добавить валидацию форм</p>
 <p>Не все приложение является адаптивным</p>
-<a href="https://algrebeniuk.github.io/mesto-react/" target="_blank">Ссылка на страницу</a>
+<a href="https://algrebeniuk.github.io/react-mesto-auth/" target="_blank">Ссылка на страницу</a>
 
