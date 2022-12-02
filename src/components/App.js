@@ -37,20 +37,20 @@ function App() {
   }, []); 
 
   useEffect(() =>{
-    api.getUserInfo()
-       .then((name, about, avatar) => {
-         setCurrentUser(name, about, avatar)
-       })
-       .catch((err) => console.log(err))
-  }, []);
+    if (loggedIn) {
+      api.getUserInfo()
+        .then((name, about, avatar) => {
+          setCurrentUser(name, about, avatar)
+        })
+        .catch((err) => console.log(err))
 
-  useEffect(() =>{
-    api.getInitialCards()
-       .then((data) =>{
-         setCards(data);
-       }) 
-       .catch((err) => console.log(err))
-  }, []);
+      api.getInitialCards()
+        .then((data) =>{
+          setCards(data);
+        }) 
+        .catch((err) => console.log(err))
+    }
+  }, [loggedIn]);
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true)
@@ -189,37 +189,37 @@ function App() {
           loginPage={loginPage}
         />
         <Switch>
-        <ProtectedRoute exact path="/" 
-            onEditAvatar={handleEditAvatarClick}
-            onEditProfile={handleEditProfileClick}
-            onAddPlace={handleAddPlaceClick}
-            onCardClick={handleCardClick}
-            cards={cards}
-            onCardLike={handleCardLike}
-            onCardDelete={handleCardDelete}
-            loggedIn={loggedIn}
-            component={Main}
-          >
-        </ProtectedRoute>
-        <Route path="/sign-up">
-          <Register 
-            onRegister={handleRegister}
-            buttonHeader={setRegisterPage}
+          <ProtectedRoute exact path="/" 
+              onEditAvatar={handleEditAvatarClick}
+              onEditProfile={handleEditProfileClick}
+              onAddPlace={handleAddPlaceClick}
+              onCardClick={handleCardClick}
+              cards={cards}
+              onCardLike={handleCardLike}
+              onCardDelete={handleCardDelete}
+              loggedIn={loggedIn}
+              component={Main}
           />
-        </Route>
-        <Route path="/sign-in">
-          <Login 
-            onLogin={handleLogin}
-            buttonHeader={setLoginPage}
-          />
-        </Route>
-        <Route>
-          {loggedIn ? <Redirect to="/" /> :  <Redirect to="/sign-up"/>}
-        </Route>
+          <Route path="/sign-up">
+            <Register 
+              onRegister={handleRegister}
+              buttonHeader={setRegisterPage}
+            />
+          </Route>
+          <Route path="/sign-in">
+            <Login 
+              onLogin={handleLogin}
+              buttonHeader={setLoginPage}
+            />
+          </Route>
+          <Route>
+            {loggedIn ? <Redirect to="/" /> :  <Redirect to="/sign-up"/>}
+          </Route>
         </Switch>
         <Footer 
           loggedIn={loggedIn}
         />
+        
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
